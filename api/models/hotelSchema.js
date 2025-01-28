@@ -7,10 +7,12 @@ const HotelSchema = new mongoose.Schema({
     type: {
         type: String,
         required: true,
+        lowercase: true,
     },
     city: {
         type: String,
         required: true,
+        lowercase: true,
     },
     address: {
         type: String,
@@ -49,4 +51,6 @@ const HotelSchema = new mongoose.Schema({
     },
 }, { timestamps: true });
 
-export default mongoose.model("Hotel", HotelSchema)
+const Hotel = mongoose.model("Hotel", HotelSchema)
+
+export default Hotel;
