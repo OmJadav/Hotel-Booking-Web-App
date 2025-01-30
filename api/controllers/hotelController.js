@@ -44,18 +44,40 @@ export const getHotel = async (req, res, next) => {
         return res.status(400).json({ error: "INTERNAL SERVER ERROR" });
     }
 };
+// export const getHotels = async (req, res, next) => {
+//     const { min, max, ...others } = req.query;
+//     try {
+//         const hotels = await Hotel.find({
+//             ...others,
+//             cheapestPrice: { $gt: min || 1, $lt: max || 999 },
+//         }).limit(req.query.limit);
+//         if (!hotels) return res.status(404).json({ error: "No hotels found." });
+//         return res.status(200).json(hotels);
+//     } catch (err) {
+//         console.error("Error in all getHotels ", err.message);
+//         return res.status(400).json({ error: "INTERNAL SERVER ERROR" });
+//     }
+// };
 export const getHotels = async (req, res, next) => {
-    const { min, max, ...others } = req.query;
     try {
+        const { min, max, ...others } = req.query;
+        const minPrice = Number(min) || 1;
+        const maxPrice = Number(max) || 3000;
+        const limit = Number(req.query.limit) || 10; // Default limit to 10
+
         const hotels = await Hotel.find({
             ...others,
-            cheapestPrice: { $gt: min | 1, $lt: max || 999 },
-        }).limit(req.query.limit);
-        if (!hotels) return res.status(404).json({ error: "No hotels found." });
+            cheapestPrice: { $gt: minPrice, $lt: maxPrice },
+        }).limit(limit);
+
+        if (!hotels.length) {
+            return res.status(404).json({ error: "No hotels found." });
+        }
+
         return res.status(200).json(hotels);
     } catch (err) {
-        console.error("Error in all getHotels ", err.message);
-        return res.status(400).json({ error: "INTERNAL SERVER ERROR" });
+        console.error("Error in getHotels:", err.message);
+        return res.status(500).json({ error: "INTERNAL SERVER ERROR" });
     }
 };
 export const countByCity = async (req, res, next) => {

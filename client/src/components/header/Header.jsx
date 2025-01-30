@@ -88,7 +88,7 @@ const Header = ({ type }) => {
               A lifetime of discounts? It's Genius.
             </h1>
             <p className="headerDesc">
-              Get rewarded for your travels – unlock instant savings of 10% or
+              Get rewarded for your travels - unlock instant savings of 10% or
               more with a free Lamabooking account
             </p>
             {!user && <button className="headerBtn">Sign in / Register</button>}

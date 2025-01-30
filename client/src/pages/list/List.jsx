@@ -17,12 +17,14 @@ const List = () => {
   const [options, setOptions] = useState(location.state.options);
   const [min, setMin] = useState(undefined);
   const [max, setMax] = useState(undefined);
-
+  const [url, seturl] = useState("");
   const { data, loading, error, reFetch } = useFetch(
-    `${backendUrl}/hotels?city=${destination}&min=${min || 0}&max=${max || 999}`
+    `${backendUrl}${url}
+    }`
   );
 
   const handleClick = () => {
+    seturl(`/hotels?city=${destination}&min=${min || 0}&max=${max || 3000}`);
     reFetch();
   };
 
@@ -36,7 +38,11 @@ const List = () => {
             <h1 className="lsTitle">Search</h1>
             <div className="lsItem">
               <label>Destination</label>
-              <input placeholder={destination} type="text" />
+              <input
+                placeholder={destination}
+                onChange={(e) => setDestination(e.target.value)}
+                type="text"
+              />
             </div>
             <div className="lsItem">
               <label>Check-in Date</label>
